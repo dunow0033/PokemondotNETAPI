@@ -1,4 +1,4 @@
-import logo from './logo.svg';
+import axios from 'axios';
 import './App.css';
 import { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
@@ -11,19 +11,23 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  // axios.get('http://localhost:5094/GameModels')
+  //           .then(response => {
+  //               setGames(response.data);
+  //               setError(null);
+  //               setPending(false);
+  //           })
+  //           .catch(err => {
+  //               setError(err.message);
+  //               setPending(false);
+  //           });
+
   useEffect(() => {
-    fetch('http://localhost:5108/Pokemon')
+    axios.get('http://localhost:5108/Pokemon')
       .then(response => {
-        if(response.ok) {
-          return response.json();
-        }
-        throw response;
-      })
-      .then(data => {
-        setPokemonList(data);
+        setPokemonList(response.data);
       })
       .catch(error => {
-        console.error("Error fetching data: ", error);
         setError(error);
       })
       .finally(() => {
